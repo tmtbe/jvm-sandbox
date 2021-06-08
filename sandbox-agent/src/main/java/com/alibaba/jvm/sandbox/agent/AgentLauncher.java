@@ -41,6 +41,10 @@ public class AgentLauncher {
         return sandboxHome + File.separatorChar + "lib" + File.separator + "sandbox-spy.jar";
     }
 
+    private static String getTTLJarPath(String sandboxHome) {
+        return sandboxHome + File.separatorChar + "lib" + File.separator + "sandbox-ttl.jar";
+    }
+
     private static String getSandboxPropertiesPath(String sandboxHome) {
         return getSandboxCfgPath(sandboxHome) + File.separator + "sandbox.properties";
     }
@@ -220,6 +224,12 @@ public class AgentLauncher {
             inst.appendToBootstrapClassLoaderSearch(new JarFile(new File(
                     getSandboxSpyJarPath(home)
                     // SANDBOX_SPY_JAR_PATH
+            )));
+
+            // 将TTL注入到BootstrapClassLoader
+            inst.appendToBootstrapClassLoaderSearch(new JarFile(new File(
+                    getTTLJarPath(home)
+                    // SANDBOX_TTL_JAR_PATH
             )));
 
             // 构造自定义的类加载器，尽量减少Sandbox对现有工程的侵蚀
